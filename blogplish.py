@@ -54,6 +54,20 @@ def parse_git_log_info(text_output):
     return commits_array
 
 
+def get_files_that_were_changed_in_commit(commit_id):
+    # "get files that were changed in a commit": https://stackoverflow.com/questions/424071/how-to-list-all-the-files-in-a-commit
+    output, error = call_sp('git diff-tree --no-commit-id --name-only -r %s' % commit_id)
+    if error:
+        raise Exception("Error in get_files_that_were_changed_in_commit():\n\n" + error)
+    return output.split('\n')
+
+
 output, error = call_sp('git log')
 
-print(parse_git_log_info(output))
+parsed_commits = parse_git_log_info(output)
+
+first_commit = parsed_commits[0]
+first_commit_id = first_commit['commit_id']
+
+changed_files = get_files_that_were_changed_in_commit(first_commit_id)
+print(changed_files)
