@@ -1,4 +1,4 @@
-
+import re
 from subprocess import Popen, PIPE
 
 
@@ -25,8 +25,12 @@ def call_sp(command, *args, **kwargs):
 
 
 def parse_git_log_info(text_output):
-    pass
+    # https://stackoverflow.com/questions/10974932/split-string-based-on-a-regular-expression
+    commits_array = re.split("commit \w{40}", text_output)
+    print(commits_array)
 
 
 output, error = call_sp('git log')
 print(output)
+
+parse_git_log_info(output)
