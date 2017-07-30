@@ -100,21 +100,22 @@ def auto_blogplish_blog():
     # "reverse a list python": https://stackoverflow.com/questions/3940128/how-can-i-reverse-a-list-in-python
     parsed_commits.reverse()
 
-    first_commit = parsed_commits[0]
-    first_commit_id = first_commit['commit_id']
-
     for index, commit_data in enumerate(parsed_commits):
         blog_post += commit_data['message']
         blog_post += '\n\n\n\n'
+        commit_id = commit_data['commit_id']
 
-    # changed_files = get_files_that_were_changed_in_commit(first_commit_id)
-
-    # for changed_file in changed_files:
-    #     contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
-    #     print(contents)
+        changed_files = get_files_that_were_changed_in_commit(commit_id)
+        if changed_files:
+            blog_post += '$$$ Entire contents of changed files: $$$\n\n'
+        for changed_file in changed_files:
+            contents = get_contents_of_certain_file_in_certain_commit(commit_id, changed_file)
+            blog_post += '## ' + changed_file + ': ##\n\n'
+            blog_post += contents
+            blog_post += '\n\n\n\n'
 
     # print(get_contents_of_certain_file_in_certain_commit('b37ae0371d1', 'blogplish.py'))
-
+    
     # a_diff_2_commits_back = get_diff_of_certain_file_in_certain_commit('c4b7c7cabccc350eef5ef80344f', 'f66b7bfd0f82d5b987d9f71f', THIS_SCRIPT_NAME)
     # print(a_diff_2_commits_back)
 
