@@ -24,6 +24,9 @@ def call_sp(command, *args, **kwargs):
     return output, err
 
 
+def parse_git_log_info(text_output):
+    pass
+
+
 output, error = call_sp('git log')
 print(output)
-x
