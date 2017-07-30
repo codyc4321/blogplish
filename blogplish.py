@@ -34,3 +34,4 @@ output, error = call_sp('git log')
 print(output)
 
 parse_git_log_info(output)
+x
