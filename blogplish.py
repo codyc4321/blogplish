@@ -59,7 +59,10 @@ def get_files_that_were_changed_in_commit(commit_id):
     output, error = call_sp('git diff-tree --no-commit-id --name-only -r %s' % commit_id)
     if error:
         raise Exception("Error in get_files_that_were_changed_in_commit():\n\n" + error)
-    return output.split('\n')
+    changed_files_intermediary = output.split('\n')
+    # at first got a result like ['blogplish.py', '']
+    changed_files = [this_file for this_file in changed_files_intermediary if this_file]
+    return changed_files
 
 
 output, error = call_sp('git log')
