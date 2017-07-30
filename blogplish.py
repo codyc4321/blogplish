@@ -82,6 +82,8 @@ first_commit_id = first_commit['commit_id']
 
 changed_files = get_files_that_were_changed_in_commit(first_commit_id)
 
-for changed_file in changed_files:
-    contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
-    print(contents)
+# for changed_file in changed_files:
+#     contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
+#     print(contents)
+
+print(get_contents_of_certain_file_in_certain_commit('b37ae0371d1', 'blogplish.py'))
