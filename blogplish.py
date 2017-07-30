@@ -1,5 +1,4 @@
 import re
-import time
 from subprocess import Popen, PIPE
 
 
@@ -26,15 +25,19 @@ def call_sp(command, *args, **kwargs):
 
 
 def parse_git_log_info(text_output):
-    # https://stackoverflow.com/questions/4697882/how-can-i-find-all-matches-to-a-regular-expression-in-python
-    # https://stackoverflow.com/questions/1870954/python-regular-expression-across-multiple-lines
-    rgx = re.compile(r"commit \w{40}.*?(?=commit)", re.DOTALL)
-    commits_array = re.findall(rgx, text_output)
-    print(len(commits_array))
-    time.sleep(3)
-    for item in commits_array:
-        print(item)
-        print('\n\n\n\n')
+    commit_count = 0
+    commit_start_rgx = r"^commit \w{40}"
+    lines = text_output.split('\n')
+    # commits_array = []
+    current_commit_string = ""
+    for line in lines:
+        match = re.match(commit_start_rgx, line)
+        if match:
+            commit_count += 1
+            print(line + " matched the start of a commit")
+    print("\n")
+    print(commit_count)
+    # return commits_array
 
 
 output, error = call_sp('git log')
