@@ -25,21 +25,35 @@ def call_sp(command, *args, **kwargs):
 
 
 def parse_git_log_info(text_output):
-    commit_count = 0
-    commit_start_rgx = r"^commit \w{40}"
+    """ returns a commits_array like:
+
+        [
+            {'commit_id': '23hj3sz...', 'message': 'cleanup cruft'},
+            {'commit_id': 'df8dje...', 'message': 'Changed paypal api setting to...'},
+            ...
+        ]
+    """
+    commit_start_rgx = r"^commit (?P<commit_id>\w{40})"
     lines = text_output.split('\n')
-    # commits_array = []
-    current_commit_string = ""
+    commits_array = []
+    current_commit_id = None
+    current_commit_message_string = ""
+
     for line in lines:
         match = re.match(commit_start_rgx, line)
         if match:
-            commit_count += 1
-            print(line + " matched the start of a commit")
-    print("\n")
-    print(commit_count)
-    # return commits_array
+            # this if block fails only once, on the first pass through
+            if current_commit_id:
+                commits_array.append({'commit_id': current_commit_id, 'message': current_commit_message_string.strip()})
+            current_commit_id = match.group('commit_id')
+            current_commit_message_string = ""
+        else:
+            if not line.startswith('Author: ') and not line.startswith('Date: '):
+                current_commit_message_string += line
+
+    return commits_array
 
 
 output, error = call_sp('git log')
 
-parse_git_log_info(output)
+print(parse_git_log_info(output))
