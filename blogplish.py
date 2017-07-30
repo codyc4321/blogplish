@@ -91,20 +91,27 @@ def get_diff_of_certain_file_in_certain_commit(newer_commit_id, older_commit_id,
     return raw_diff
 
 
-output, error = call_sp('git log')
+def auto_blogplish_blog():
+    blog_post = ""
 
-parsed_commits = parse_git_log_info(output)
+    output, error = call_sp('git log')
 
-first_commit = parsed_commits[0]
-first_commit_id = first_commit['commit_id']
+    parsed_commits = parse_git_log_info(output)
+    print(parsed_commits)
 
-changed_files = get_files_that_were_changed_in_commit(first_commit_id)
+    # first_commit = parsed_commits[0]
+    # first_commit_id = first_commit['commit_id']
+    #
+    # changed_files = get_files_that_were_changed_in_commit(first_commit_id)
+    #
+    # # for changed_file in changed_files:
+    # #     contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
+    # #     print(contents)
+    #
+    # # print(get_contents_of_certain_file_in_certain_commit('b37ae0371d1', 'blogplish.py'))
+    #
+    # a_diff_2_commits_back = get_diff_of_certain_file_in_certain_commit('c4b7c7cabccc350eef5ef80344f', 'f66b7bfd0f82d5b987d9f71f', THIS_SCRIPT_NAME)
+    # print(a_diff_2_commits_back)
 
-# for changed_file in changed_files:
-#     contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
-#     print(contents)
 
-# print(get_contents_of_certain_file_in_certain_commit('b37ae0371d1', 'blogplish.py'))
-
-a_diff_2_commits_back = get_diff_of_certain_file_in_certain_commit('c4b7c7cabccc350eef5ef80344f', 'f66b7bfd0f82d5b987d9f71f', THIS_SCRIPT_NAME)
-print(a_diff_2_commits_back)
+auto_blogplish_blog()
