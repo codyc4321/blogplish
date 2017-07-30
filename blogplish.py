@@ -1,6 +1,8 @@
 import re
+import sys
 from subprocess import Popen, PIPE
 
+THIS_SCRIPT_NAME = sys.argv[0]
 
 
 """
@@ -73,6 +75,22 @@ def get_contents_of_certain_file_in_certain_commit(commit_id, filename):
     return output
 
 
+def get_diff_of_certain_file_in_certain_commit(newer_commit_id, older_commit_id, filename):
+    """
+    head diff means how many commits back, as in
+
+        HEAD~3
+
+    means 3 commits back
+    """
+    # "get dif of a certain file in certain commit": https://stackoverflow.com/questions/42357521/generate-diff-file-of-a-specific-commit-in-git
+    command = 'git diff {older_commit_id}..{newer_commit_id} {filename}'.format(older_commit_id=older_commit_id, newer_commit_id=newer_commit_id, filename=filename)
+    raw_diff, error = call_sp(command)
+    if error:
+        raise Exception("Error in get_diff_of_certain_file_in_certain_commit():\n\n" + error)
+    return raw_diff
+
+
 output, error = call_sp('git log')
 
 parsed_commits = parse_git_log_info(output)
@@ -86,4 +104,7 @@ changed_files = get_files_that_were_changed_in_commit(first_commit_id)
 #     contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
 #     print(contents)
 
-print(get_contents_of_certain_file_in_certain_commit('b37ae0371d1', 'blogplish.py'))
+# print(get_contents_of_certain_file_in_certain_commit('b37ae0371d1', 'blogplish.py'))
+
+a_diff_2_commits_back = get_diff_of_certain_file_in_certain_commit('c4b7c7cabccc350eef5ef80344f', 'f66b7bfd0f82d5b987d9f71f', THIS_SCRIPT_NAME)
+print(a_diff_2_commits_back)
