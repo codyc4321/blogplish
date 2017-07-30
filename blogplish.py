@@ -4,8 +4,6 @@ from subprocess import Popen, PIPE
 
 
 """
-Write function to call Bash command from Python
-
 Get all commit info
 
 For each commit in the commit info:
