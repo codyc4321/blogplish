@@ -65,6 +65,14 @@ def get_files_that_were_changed_in_commit(commit_id):
     return changed_files
 
 
+def get_contents_of_certain_file_in_certain_commit(commit_id, filename):
+    # "get contents of a certain file in a commit": https://stackoverflow.com/questions/2497051/how-can-i-show-the-contents-of-a-file-at-a-specific-state-of-a-git-repo
+    output, error = call_sp('git show %s:%s' % (commit_id, filename))
+    if error:
+        raise Exception("Error in get_contents_of_certain_file_in_certain_commit():\n\n" + error)
+    return output
+
+
 output, error = call_sp('git log')
 
 parsed_commits = parse_git_log_info(output)
@@ -73,4 +81,7 @@ first_commit = parsed_commits[0]
 first_commit_id = first_commit['commit_id']
 
 changed_files = get_files_that_were_changed_in_commit(first_commit_id)
-print(changed_files)
+
+for changed_file in changed_files:
+    contents = get_contents_of_certain_file_in_certain_commit(first_commit_id, changed_file)
+    print(contents)
