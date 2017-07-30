@@ -14,7 +14,7 @@ For each commit in the commit info:
     Add entire files that were changed to final string
 """
 
-ydef call_sp(command, *args, **kwargs):
+def call_sp(command, *args, **kwargs):
     """ you can run command from any directory you want by passing in a kwarg of 'cwd' (current working directory):
 
         call_sp('ls', '-a', cwd='/home/username/projects/awesomeproject')
@@ -28,4 +28,3 @@ ydef call_sp(command, *args, **kwargs):
 
 output, error = call_sp('ls')
 print(output)
-x
