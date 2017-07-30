@@ -5,14 +5,10 @@ from subprocess import Popen, PIPE
 THIS_SCRIPT_NAME = sys.argv[0]
 
 
-"""
-Get all commit info
+def write_content(the_file, content):
+    with open(the_file, 'w') as f:
+        f.write(content)
 
-For each commit in the commit info:
-    Add commit message to a final string
-    Add changes to final string
-    Add entire files that were changed to final string
-"""
 
 def call_sp(command, *args, **kwargs):
     """ you can run command from any directory you want by passing in a kwarg of 'cwd' (current working directory):
@@ -129,4 +125,5 @@ def auto_blogplish_blog():
 
 
 blog_text = auto_blogplish_blog()
-print(blog_text)
+
+write_content('blog_rough_draft.md', blog_text)
