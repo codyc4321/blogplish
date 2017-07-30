@@ -108,20 +108,21 @@ def auto_blogplish_blog():
         changed_files = get_files_that_were_changed_in_commit(this_commit_id)
 
         if changed_files:
-            if index > 0:
-                blog_post += '$$$ Diffs of changed files: $$$\n\n'
-                for changed_file in changed_files:
-                    older_commit_id = parsed_commits[index - 1]['commit_id']
-                    this_diff = get_diff_of_certain_file_in_certain_commit(older_commit_id, this_commit_id, changed_file)
-                    blog_post += '## ' + changed_file + ': ##\n\n'
-                    blog_post += this_diff
-                    blog_post += '\n\n\n\n'
+            # if index > 0:
+            #     blog_post += '$$$ Diffs of changed files: $$$\n\n'
+            #     for changed_file in changed_files:
+            #         older_commit_id = parsed_commits[index - 1]['commit_id']
+            #         this_diff = get_diff_of_certain_file_in_certain_commit(older_commit_id, this_commit_id, changed_file)
+            #         blog_post += '## ' + changed_file + ': ##\n\n'
+            #         blog_post += this_diff
+            #         blog_post += '\n\n\n\n'
 
-            blog_post += '$$$ Entire contents of changed files: $$$\n\n'
+            # blog_post += '$$$ Entire contents of changed files: $$$\n\n'
             for changed_file in changed_files:
                 contents = get_contents_of_certain_file_in_certain_commit(this_commit_id, changed_file)
-                blog_post += '## ' + changed_file + ': ##\n\n'
-                blog_post += contents
+                # blog_post += '## ' + changed_file + ': ##\n\n'
+                blog_post += '`' + changed_file + '`\n\n'
+                blog_post += "```" + contents + "```"
                 blog_post += '\n\n\n\n'
 
     return blog_post
@@ -129,4 +130,3 @@ def auto_blogplish_blog():
 
 blog_text = auto_blogplish_blog()
 print(blog_text)
-x
