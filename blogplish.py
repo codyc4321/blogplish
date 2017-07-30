@@ -97,6 +97,8 @@ def auto_blogplish_blog():
     output, error = call_sp('git log')
 
     parsed_commits = parse_git_log_info(output)
+    # "reverse a list python": https://stackoverflow.com/questions/3940128/how-can-i-reverse-a-list-in-python
+    parsed_commits.reverse()
     print(parsed_commits)
 
     # first_commit = parsed_commits[0]
